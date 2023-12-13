@@ -2,18 +2,19 @@ package routes
 
 import (
 	"log"
-
+	// "encoding/json"
+	"github.com/hs414171/AVRWA_COMPLAINT/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"gofr.dev/pkg/gofr"
 )
 
-type Complaint struct {
-	Houseno   int32  `bson:"house_no"`
-	Name      string `bson:"name"`
-	Complaint string `bson:"complaint"`
-	Type      string `bson:"type"`
-}
+// type Complaint struct {
+// 	Houseno   string  `bson:"house_no"`
+// 	Name      string `bson:"name"`
+// 	Complaint string `bson:"complaint"`
+// 	Type      string `bson:"type"`
+// }
 
 func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 
@@ -26,9 +27,9 @@ func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 		log.Fatal(err)
 	}
 	defer cursor.Close(ctx)
-	var complaints []Complaint
+	var complaints []models.Complaint
 	for cursor.Next(ctx) {
-		var complaint Complaint
+		var complaint models.Complaint
 		if err := cursor.Decode(&complaint); err != nil {
 			return nil, err
 		}
@@ -36,5 +37,21 @@ func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 	}
 
 	return complaints, nil
+
+}
+
+func HandleComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
+
+	var complaint models.Complaint
+	ctx.Bind(&complaint)
+	log.Println(complaint)
+	collection := client.Database("RWA").Collection("Complaints")
+
+	_, err := collection.InsertOne(ctx, complaint)
+	if err != nil {
+		return nil, err
+	}
+
+	return complaint, nil
 
 }

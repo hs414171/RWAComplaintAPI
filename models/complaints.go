@@ -1,10 +1,10 @@
 package models
 
 type Complaint struct {
-	HouseNo   int32  `bson:"house_no"`
-	Name      string `bson:"name"`
-	Complaint string `bson:"complaint"`
-	Type      string `bson:"type"`
+	HouseNo   int    `json:"house_no"`
+	Name      string `json:"name"`
+	Complaint string `json:"complaint"`
+	Type      string `json:"type"`
 }
 
 const (
