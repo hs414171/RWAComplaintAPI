@@ -10,9 +10,14 @@ import (
     "github.com/joho/godotenv"
     "log"
     "os"
+	"github.com/hs414171/AVRWA_COMPLAINT/routes"
 )
 
 func main() {
+	app := gofr.New()
+    app.GET("/greet", func(ctx *gofr.Context) (interface{}, error) {
+        return "Hello World!", nil
+    })
     
     if err := godotenv.Load("configs/.env"); err != nil {
         log.Fatal("Error loading .env file")
@@ -22,6 +27,7 @@ func main() {
 
     opts := options.Client().ApplyURI(mongoURI)
     client, err := mongo.Connect(context.TODO(), opts)
+	log.Println("server",client)
     if err != nil {
         panic(err)
     }
@@ -35,10 +41,13 @@ func main() {
         panic(err)
     }
     fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
-    app := gofr.New()
-    app.GET("/greet", func(ctx *gofr.Context) (interface{}, error) {
-        return "Hello World!", nil
+    
+
+	app.GET("/complaints", func(ctx *gofr.Context) (interface{}, error) {
+        return routes.GetAllComplaints(ctx, client)
     })
+
+	
 
     
     app.Start()
