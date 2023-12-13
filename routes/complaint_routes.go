@@ -2,19 +2,18 @@ package routes
 
 import (
 	"log"
-	// "encoding/json"
+
 	"github.com/hs414171/AVRWA_COMPLAINT/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"gofr.dev/pkg/gofr"
 )
 
-// type Complaint struct {
-// 	Houseno   string  `bson:"house_no"`
-// 	Name      string `bson:"name"`
-// 	Complaint string `bson:"complaint"`
-// 	Type      string `bson:"type"`
-// }
+
+type CaseID struct {
+	CaseId primitive.ObjectID `json:"case_id"`
+}
 
 func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 
@@ -44,7 +43,7 @@ func HandleComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 
 	var complaint models.Complaint
 	ctx.Bind(&complaint)
-	log.Println(complaint)
+	complaint.CaseID = primitive.NewObjectID()
 	collection := client.Database("RWA").Collection("Complaints")
 
 	_, err := collection.InsertOne(ctx, complaint)
@@ -55,3 +54,25 @@ func HandleComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 	return complaint, nil
 
 }
+
+func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
+	var cAseId = ctx.PathParam("case_id")
+	objID, err := primitive.ObjectIDFromHex(cAseId)
+	if err != nil {
+		return primitive.NilObjectID, err
+	}
+	log.Println(objID)
+	collection := client.Database("RWA").Collection("Complaints")
+
+	filter := bson.M{"caseid": objID}
+	log.Println(filter)
+
+	result, err := collection.DeleteOne(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.DeletedCount, nil
+}
+
+

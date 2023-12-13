@@ -51,5 +51,9 @@ func main() {
 		return routes.HandleComplaints(ctx, client)
 	})
 
+	app.DELETE("/delcomp/{case_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.DeleteComplaintByCaseID(ctx, client)
+	})
+
 	app.Start()
 }
