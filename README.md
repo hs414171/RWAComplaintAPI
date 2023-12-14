@@ -166,8 +166,8 @@ Start the server
 
 ## UML Diagrams
 
-### Complaints Post UML 
-![Complaints Post UML](static/addComplaintUML.png)
+### POST /addcomplaints
+![App Screenshot](https://www.planttext.com/api/plantuml/svg/bPDDJyCm38Rl_HM-SPguxu3sqV4X8HXqWxFNUCWYIqlY5lRlIRgrIocJe9UeR-mdVXrduWIjL3kTb7xbd4iq0dFDPAGdPMHhiZtfjR3lP5qww-SMkr8Z6maRoO44ewiZO0otgzKIbe_P2YvHgRoBJZ0Nhb6eFUgmnAcBBx4-2j0eU47DAaHtvq6AWWbgQVUuC91LUKxERIkTWF-6p1ioP0DdRVYZyZXqT9V-2EwSZk6f8hjl1TWMrX_1WXjDhTZaTcPEJGfoznUNSCzEeDZ-3b9q1ZMqaf6clBqMc7aZ2dmBvfQ5BEDvJ-jIdVWN3gREyPlnsQ4Phcdtj4RMk67Dil-tmHuVKXBF-hExU9wyHwnxLnwnEb9l0iDEBC0eAcnUc2tRNJCgF-iPKDgIGatDL8_XWJxr7gPAXLuDYYBjA9x5Qw-IEiTQMEk7wPbSMHX72HcLHDKStyJ4o-6nVWC0)
 
 
 ## Authors
