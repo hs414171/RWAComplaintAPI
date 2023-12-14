@@ -40,6 +40,10 @@ func HandleWorkers(ctx *gofr.Context, client *mongo.Client) (interface{}, error)
 	ctx.Bind(&worker)
 	worker.EmpID = primitive.NewObjectID()
 	collection := client.Database("RWA").Collection("Workers")
+	defaultAvailable := true
+	if worker.Available == nil {
+		worker.Available = &defaultAvailable
+	}
 
 	_, err := collection.InsertOne(ctx, worker)
 	if err != nil {
@@ -84,7 +88,7 @@ func UpdateWorkerByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{},
 	if updatedFields.Name != "" {
 		update["$set"].(bson.M)["name"] = updatedFields.Name
 	}
-	if updatedFields.Available != false {
+	if updatedFields.Available != nil {
 		update["$set"].(bson.M)["available"] = updatedFields.Available
 	}
 	if updatedFields.Expertise != "" {
