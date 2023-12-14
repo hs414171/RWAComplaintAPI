@@ -160,12 +160,6 @@ Start the server
 - Auto Worker assignment
 
 
-
-## Documentation
-
-[Documentation](https://linktodocumentation)
-
-
 ## Authors
 
 - [@hs414171](https://github.com/hs414171)
