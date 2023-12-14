@@ -164,11 +164,16 @@ Start the server
 - CRUD Workers
 - Auto Worker assignment
 
-## UML Diagrams
+## Sequence Diagrams
 
 ### POST /addcomplaints
 ![App Screenshot](https://www.planttext.com/api/plantuml/svg/bPDDJyCm38Rl_HM-SPguxu3sqV4X8HXqWxFNUCWYIqlY5lRlIRgrIocJe9UeR-mdVXrduWIjL3kTb7xbd4iq0dFDPAGdPMHhiZtfjR3lP5qww-SMkr8Z6maRoO44ewiZO0otgzKIbe_P2YvHgRoBJZ0Nhb6eFUgmnAcBBx4-2j0eU47DAaHtvq6AWWbgQVUuC91LUKxERIkTWF-6p1ioP0DdRVYZyZXqT9V-2EwSZk6f8hjl1TWMrX_1WXjDhTZaTcPEJGfoznUNSCzEeDZ-3b9q1ZMqaf6clBqMc7aZ2dmBvfQ5BEDvJ-jIdVWN3gREyPlnsQ4Phcdtj4RMk67Dil-tmHuVKXBF-hExU9wyHwnxLnwnEb9l0iDEBC0eAcnUc2tRNJCgF-iPKDgIGatDL8_XWJxr7gPAXLuDYYBjA9x5Qw-IEiTQMEk7wPbSMHX72HcLHDKStyJ4o-6nVWC0)
 
+### POST /addworkers
+![App Screenshot](https://www.planttext.com/api/plantuml/svg/TL6xRiCm3Dpr5Vo18Bk78i-YKnF4HZeJ9WC8LII3efFsxoDRjkCCqKBeTCSxKgkeADfUdMbIjRLjq2jidMMlBr39ScDvWNw2_BB4tSQOB835ny0huAkgZd0yb1KiaUYUgGPhjJTK7jlbCjVj_rGI2z0JdD5PwjZP2NQeQD3f-623XxAjQuxnqZe3wJmRJkaAM1CDrvupXNWEqC7J3HQpFDlWBrQklLbF8twZ7wsJEA-ZW6--k__EdccQWHMjYuPTvFaSdmbbUjTeBn84JXoRu2CRzcHcEOPbhXASVl81)
+
+## Use Case Diagram
+![UseCaseDiagram](https://www.planttext.com/api/plantuml/svg/RP312i8m38RlUOgm-mxEdMLbWWyWPUUonbdisj5c1n7VtKsh5lJsvUVx4qWJMGMUHmkMJepiCPZXpAXDe9wDTw1wzW5bf80geanpvyFbbNGf4NeqRWq4mDfLRh24nsja6l46Y7EaNaN2GcYDhHydgupZuhcrtUI2dBHY-d6gtDcJfJ_EDdSEn5yX9gE6HP5ObhjqzirLnjkCwuMxZ4NM5LbNVBftW8QSNhxw0000)
 
 ## Authors
 
