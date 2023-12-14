@@ -76,7 +76,7 @@ func HandleComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 			return nil, err
 		}
 
-		complaint.AllotedTo = selectedWorker.Name
+		complaint.AllotedTo = selectedWorker.EmpID
 	}
 
 	_, err = collection.InsertOne(ctx, complaint)
@@ -109,14 +109,28 @@ func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface
 func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 	var caseID = ctx.PathParam("case_id")
 	var updatedFields models.Complaint
+
 	ctx.Bind(&updatedFields)
+
 	objID, err := primitive.ObjectIDFromHex(caseID)
 	if err != nil {
 		return primitive.NilObjectID, err
 	}
+
 	collection := client.Database("RWA").Collection("Complaints")
+	collectionWorkers := client.Database("RWA").Collection("Workers")
 
 	filter := bson.M{"caseid": objID}
+	res := collection.FindOne(ctx, filter)
+	if res.Err() != nil {
+		return nil, res.Err()
+	}
+
+	var existingComplaint models.Complaint
+	if err := res.Decode(&existingComplaint); err != nil {
+		return nil, err
+	}
+
 	update := bson.M{"$set": bson.M{}}
 
 	if updatedFields.Name != "" {
@@ -131,11 +145,31 @@ func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client) (interfac
 	if updatedFields.Type != "" {
 		update["$set"].(bson.M)["type"] = updatedFields.Type
 	}
+	if updatedFields.AllotedTo != primitive.NilObjectID {
+		update["$set"].(bson.M)["allotedto"] = updatedFields.AllotedTo
+
+		if updatedFields.AllotedTo != existingComplaint.AllotedTo {
+
+			updateNewWorker := bson.M{"$push": bson.M{"assignedcases": objID}}
+			_, err := collectionWorkers.UpdateOne(ctx, bson.M{"empid": updatedFields.AllotedTo}, updateNewWorker)
+			if err != nil {
+				return primitive.NilObjectID, err
+			}
+
+			if existingComplaint.AllotedTo != primitive.NilObjectID {
+				updatePrevWorker := bson.M{"$pull": bson.M{"assignedcases": objID}}
+				_, err = collectionWorkers.UpdateOne(ctx, bson.M{"empid": existingComplaint.AllotedTo}, updatePrevWorker)
+				if err != nil {
+					return primitive.NilObjectID, err
+				}
+			}
+		}
+	}
 
 	result, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		return nil, err
 	}
-	return result.ModifiedCount, nil
 
+	return result.ModifiedCount, nil
 }

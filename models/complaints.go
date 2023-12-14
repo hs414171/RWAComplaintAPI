@@ -9,6 +9,6 @@ type Complaint struct {
 	Name      string             `json:"name"`
 	Complaint string             `json:"complaint"`
 	Type      string             `json:"type"`
-	AllotedTo string             `json:"allotedto"`
+	AllotedTo primitive.ObjectID `json:"allotedto"`
 	CaseID    primitive.ObjectID `json:"caseid"`
 }
