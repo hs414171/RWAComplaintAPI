@@ -6,7 +6,7 @@ The AVRWA_COMPLAINT API provides endpoints to manage complaints and workers with
 ## Base URL
 
 ```http
-  http://loaclhost:5000
+  http://loacalhost:5000
 
 ```
 
@@ -15,7 +15,7 @@ The AVRWA_COMPLAINT API provides endpoints to manage complaints and workers with
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/hs414171/RWAComplaintAPI.git
 ```
 
 Go to the project directory
