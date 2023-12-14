@@ -44,6 +44,9 @@ func HandleWorkers(ctx *gofr.Context, client *mongo.Client) (interface{}, error)
 	if worker.Available == nil {
 		worker.Available = &defaultAvailable
 	}
+	if worker.AssignedCases == nil {
+		worker.AssignedCases = []primitive.ObjectID{}
+	}
 
 	_, err := collection.InsertOne(ctx, worker)
 	if err != nil {

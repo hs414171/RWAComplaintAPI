@@ -2,6 +2,7 @@ package routes
 
 import (
 	"log"
+	"sort"
 
 	"github.com/hs414171/AVRWA_COMPLAINT/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -9,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"gofr.dev/pkg/gofr"
 )
-
 
 type CaseID struct {
 	CaseId primitive.ObjectID `json:"case_id"`
@@ -40,19 +40,51 @@ func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, err
 }
 
 func HandleComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
-
 	var complaint models.Complaint
 	ctx.Bind(&complaint)
 	complaint.CaseID = primitive.NewObjectID()
 	collection := client.Database("RWA").Collection("Complaints")
 
-	_, err := collection.InsertOne(ctx, complaint)
+	var workers []models.Worker
+	filter := bson.M{"expertise": complaint.Type, "available": true}
+	collectionWorkers := client.Database("RWA").Collection("Workers")
+	cursor, err := collectionWorkers.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+	err = cursor.All(ctx, &workers)
+	if err != nil {
+		return nil, err
+	}
+
+	var selectedWorker models.Worker
+	if len(workers) > 0 {
+
+		sort.Slice(workers, func(i, j int) bool {
+			return len(workers[i].AssignedCases) < len(workers[j].AssignedCases)
+		})
+
+		selectedWorker = workers[0]
+
+		update := bson.M{
+			"$push": bson.M{"assignedcases": complaint.CaseID},
+			"$set":  bson.M{"available": len(selectedWorker.AssignedCases) < 4},
+		}
+		_, err = collectionWorkers.UpdateOne(ctx, bson.M{"empid": selectedWorker.EmpID}, update)
+		if err != nil {
+			return nil, err
+		}
+
+		complaint.AllotedTo = selectedWorker.Name
+	}
+
+	_, err = collection.InsertOne(ctx, complaint)
 	if err != nil {
 		return nil, err
 	}
 
 	return complaint, nil
-
 }
 
 func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
@@ -74,39 +106,36 @@ func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface
 	return result.DeletedCount, nil
 }
 
-func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client)(interface{},error){
+func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 	var caseID = ctx.PathParam("case_id")
 	var updatedFields models.Complaint
 	ctx.Bind(&updatedFields)
-	objID,err := primitive.ObjectIDFromHex(caseID)
-	if err!=nil{
-		return primitive.NilObjectID,err
+	objID, err := primitive.ObjectIDFromHex(caseID)
+	if err != nil {
+		return primitive.NilObjectID, err
 	}
 	collection := client.Database("RWA").Collection("Complaints")
 
-	filter := bson.M{"caseid":objID}
+	filter := bson.M{"caseid": objID}
 	update := bson.M{"$set": bson.M{}}
 
 	if updatedFields.Name != "" {
-        update["$set"].(bson.M)["name"] = updatedFields.Name
-    }
-    if updatedFields.HouseNo != 0 {
-        update["$set"].(bson.M)["houseno"] = updatedFields.HouseNo
-    }
-    if updatedFields.Complaint != "" {
-        update["$set"].(bson.M)["complaint"] = updatedFields.Complaint
-    }
-    if updatedFields.Type != "" {
-        update["$set"].(bson.M)["type"] = updatedFields.Type
-    }
+		update["$set"].(bson.M)["name"] = updatedFields.Name
+	}
+	if updatedFields.HouseNo != 0 {
+		update["$set"].(bson.M)["houseno"] = updatedFields.HouseNo
+	}
+	if updatedFields.Complaint != "" {
+		update["$set"].(bson.M)["complaint"] = updatedFields.Complaint
+	}
+	if updatedFields.Type != "" {
+		update["$set"].(bson.M)["type"] = updatedFields.Type
+	}
 
-    result, err := collection.UpdateOne(ctx, filter, update)
-    if err != nil {
-        return nil, err
-    }
-    return result.ModifiedCount, nil
-	
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, err
+	}
+	return result.ModifiedCount, nil
 
 }
-
-
