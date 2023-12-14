@@ -8,4 +8,6 @@ type Worker struct {
 	Expertise string `json:"expertise"`
 	EmpID     primitive.ObjectID `json:"empid"`
 	AssignedCases []primitive.ObjectID `json:"assignedcases"`
+	AddCaseID     primitive.ObjectID    `json:"addcaseid"`
+	RemoveCaseID  primitive.ObjectID    `json:"removecaseid"`
 }

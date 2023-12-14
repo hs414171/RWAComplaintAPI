@@ -83,7 +83,9 @@ func UpdateWorkerByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{},
 	if err != nil {
 		return primitive.NilObjectID, err
 	}
+	
 	collection := client.Database("RWA").Collection("Workers")
+	complaintcollection := client.Database("RWA").Collection("Complaints")
 
 	filter := bson.M{"empid": objID}
 	update := bson.M{"$set": bson.M{}}
@@ -96,6 +98,24 @@ func UpdateWorkerByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{},
 	}
 	if updatedFields.Expertise != "" {
 		update["$set"].(bson.M)["expertise"] = updatedFields.Expertise
+	}
+	if updatedFields.AddCaseID != primitive.NilObjectID {
+		update["$addToSet"] = bson.M{"assignedcases": updatedFields.AddCaseID}
+		updateNewWorker := bson.M{"$set": bson.M{"allotedto": objID}}
+		_, err := complaintcollection.UpdateOne(ctx, bson.M{"caseid": updatedFields.AddCaseID}, updateNewWorker)
+		if err != nil {
+			return primitive.NilObjectID, err
+		}
+
+	}
+	if updatedFields.RemoveCaseID != primitive.NilObjectID {
+		update["$pull"] = bson.M{"assignedcases": updatedFields.RemoveCaseID}
+		updatePrevWorker := bson.M{"$set": bson.M{"allotedto": primitive.NilObjectID }}
+		_, err = complaintcollection.UpdateOne(ctx, bson.M{"empid": updatedFields.RemoveCaseID}, updatePrevWorker)
+		if err != nil {
+			return primitive.NilObjectID, err
+		}
+
 	}
 
 	result, err := collection.UpdateOne(ctx, filter, update)
