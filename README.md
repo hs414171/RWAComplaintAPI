@@ -1,9 +1,14 @@
 
 # GoFR API
 
-This is an API made in Golang using GOFR framework to create, search, update and delete complaints for the Resident Welfare Association.
+The AVRWA_COMPLAINT API provides endpoints to manage complaints and workers within a Residential Welfare Association (RWA) system.
 
+## Base URL
 
+```http
+  http://loaclhost:5000
+  
+```
 
 ## Run Locally
 
