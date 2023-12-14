@@ -15,6 +15,25 @@ type CaseID struct {
 	CaseId primitive.ObjectID `json:"case_id"`
 }
 
+func FindComplaintsByID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
+	var caseID = ctx.PathParam("case_id")
+	objID, err := primitive.ObjectIDFromHex(caseID)
+	if err != nil {
+		return primitive.NilObjectID, err
+	}
+	collection := client.Database("RWA").Collection("Complaints")
+	filter := bson.M{"caseid": objID}
+	cursor := collection.FindOne(ctx, filter)
+	if cursor.Err() != nil {
+		return nil, cursor.Err()
+	}
+	var complaint models.Complaint
+	if err := cursor.Decode(&complaint); err != nil {
+		return nil, err
+	}
+	return complaint, nil
+}
+
 func GetAllComplaints(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 
 	collection := client.Database("RWA").Collection("Complaints")

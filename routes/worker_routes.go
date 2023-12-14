@@ -10,6 +10,25 @@ import (
 	"gofr.dev/pkg/gofr"
 )
 
+func FindWorkersByID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
+	var empID = ctx.PathParam("emp_id")
+	objID, err := primitive.ObjectIDFromHex(empID)
+	if err != nil {
+		return primitive.NilObjectID, err
+	}
+	collection := client.Database("RWA").Collection("Workers")
+	filter := bson.M{"empid": objID}
+	cursor := collection.FindOne(ctx, filter)
+	if cursor.Err() != nil {
+		return nil, cursor.Err()
+	}
+	var worker models.Worker
+	if err := cursor.Decode(&worker); err != nil {
+		return nil, err
+	}
+	return worker, nil
+}
+
 func GetAllWorkers(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
 
 	collection := client.Database("RWA").Collection("Workers")
@@ -83,7 +102,7 @@ func UpdateWorkerByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{},
 	if err != nil {
 		return primitive.NilObjectID, err
 	}
-	
+
 	collection := client.Database("RWA").Collection("Workers")
 	complaintcollection := client.Database("RWA").Collection("Complaints")
 
@@ -110,7 +129,7 @@ func UpdateWorkerByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{},
 	}
 	if updatedFields.RemoveCaseID != primitive.NilObjectID {
 		update["$pull"] = bson.M{"assignedcases": updatedFields.RemoveCaseID}
-		updatePrevWorker := bson.M{"$set": bson.M{"allotedto": primitive.NilObjectID }}
+		updatePrevWorker := bson.M{"$set": bson.M{"allotedto": primitive.NilObjectID}}
 		_, err = complaintcollection.UpdateOne(ctx, bson.M{"empid": updatedFields.RemoveCaseID}, updatePrevWorker)
 		if err != nil {
 			return primitive.NilObjectID, err

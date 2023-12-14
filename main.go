@@ -43,8 +43,12 @@ func main() {
 	}
 	fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
 
-	app.GET("/complaints", func(ctx *gofr.Context) (interface{}, error) {
+	app.GET("/getcomplaints", func(ctx *gofr.Context) (interface{}, error) {
 		return routes.GetAllComplaints(ctx, client)
+	})
+
+	app.GET("/complaint/{case_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.FindComplaintsByID(ctx, client)
 	})
 
 	app.POST("/addcomplaints", func(ctx *gofr.Context) (interface{}, error) {
@@ -59,8 +63,12 @@ func main() {
 		return routes.UpdateComplaintsByCaseID(ctx, client)
 	})
 
-	app.GET("/workers", func(ctx *gofr.Context) (interface{}, error) {
+	app.GET("/getworkers", func(ctx *gofr.Context) (interface{}, error) {
 		return routes.GetAllWorkers(ctx, client)
+	})
+
+	app.GET("/worker/{emp_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.FindWorkersByID(ctx, client)
 	})
 
 	app.POST("/addworkers", func(ctx *gofr.Context) (interface{}, error) {
@@ -77,10 +85,3 @@ func main() {
 
 	app.Start()
 }
-
-// {
-//     "name":"Harshit",
-//     "houseno":602,
-//     "complaint":"Urgent Requirement of an Plumber Send Asap",
-//     "type":"Plumber"
-// }
