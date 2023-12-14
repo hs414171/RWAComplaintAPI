@@ -7,7 +7,7 @@ The AVRWA_COMPLAINT API provides endpoints to manage complaints and workers with
 
 ```http
   http://loaclhost:5000
-  
+
 ```
 
 ## Run Locally
@@ -163,6 +163,11 @@ Start the server
 - CRUD Complaints 
 - CRUD Workers
 - Auto Worker assignment
+
+## UML Diagrams
+
+### Complaints Post UML 
+![Complaints Post UML](static/addComplaintUML.png)
 
 
 ## Authors
