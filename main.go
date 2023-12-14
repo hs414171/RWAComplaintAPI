@@ -59,6 +59,22 @@ func main() {
 		return routes.UpdateComplaintsByCaseID(ctx, client)
 	})
 
+	app.GET("/workers", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.GetAllWorkers(ctx, client)
+	})
+
+	app.POST("/addworkers", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.HandleWorkers(ctx, client)
+	})
+
+	app.DELETE("/delworker/{emp_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.DeleteWorkerByCaseID(ctx, client)
+	})
+
+	app.PATCH("/updateworker/{emp_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.UpdateWorkerByCaseID(ctx, client)
+	})
+
 	app.Start()
 }
 
