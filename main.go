@@ -55,5 +55,16 @@ func main() {
 		return routes.DeleteComplaintByCaseID(ctx, client)
 	})
 
+	app.PATCH("/updatecomp/{case_id}", func(ctx *gofr.Context) (interface{}, error) {
+		return routes.UpdateComplaintsByCaseID(ctx, client)
+	})
+
 	app.Start()
 }
+
+// {
+//     "name":"Harshit",
+//     "houseno":602,
+//     "complaint":"Urgent Requirement of an Plumber Send Asap",
+//     "type":"Plumber"
+// }

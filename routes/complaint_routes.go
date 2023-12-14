@@ -10,7 +10,6 @@ import (
 	"gofr.dev/pkg/gofr"
 )
 
-
 type CaseID struct {
 	CaseId primitive.ObjectID `json:"case_id"`
 }
@@ -61,7 +60,6 @@ func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface
 	if err != nil {
 		return primitive.NilObjectID, err
 	}
-	log.Println(objID)
 	collection := client.Database("RWA").Collection("Complaints")
 
 	filter := bson.M{"caseid": objID}
@@ -75,4 +73,36 @@ func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface
 	return result.DeletedCount, nil
 }
 
+func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
+	var caseID = ctx.PathParam("case_id")
+	var updatedFields models.Complaint
+	ctx.Bind(&updatedFields)
+	objID, err := primitive.ObjectIDFromHex(caseID)
+	if err != nil {
+		return primitive.NilObjectID, err
+	}
+	collection := client.Database("RWA").Collection("Complaints")
 
+	filter := bson.M{"caseid": objID}
+	update := bson.M{"$set": bson.M{}}
+
+	if updatedFields.Name != "" {
+		update["$set"].(bson.M)["name"] = updatedFields.Name
+	}
+	if updatedFields.HouseNo != 0 {
+		update["$set"].(bson.M)["houseno"] = updatedFields.HouseNo
+	}
+	if updatedFields.Complaint != "" {
+		update["$set"].(bson.M)["complaint"] = updatedFields.Complaint
+	}
+	if updatedFields.Type != "" {
+		update["$set"].(bson.M)["type"] = updatedFields.Type
+	}
+
+	result, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, err
+	}
+	return result.ModifiedCount, nil
+
+}
