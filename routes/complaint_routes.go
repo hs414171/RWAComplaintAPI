@@ -115,14 +115,35 @@ func DeleteComplaintByCaseID(ctx *gofr.Context, client *mongo.Client) (interface
 	collection := client.Database("RWA").Collection("Complaints")
 
 	filter := bson.M{"caseid": objID}
+	res := collection.FindOne(ctx, filter)
+	if res.Err() != nil {
+		return nil, res.Err()
+	}
+
+	var existingComplaint models.Complaint
+	if err := res.Decode(&existingComplaint); err != nil {
+		return nil, err
+	}
+
 	log.Println(filter)
 
 	result, err := collection.DeleteOne(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
+	log.Println(result.DeletedCount)
+	workersCollection := client.Database("RWA").Collection("Workers")
+	update := bson.M{
+		"$pull": bson.M{"assignedcases": objID},
+	}
 
-	return result.DeletedCount, nil
+	r, err := workersCollection.UpdateMany(ctx, bson.M{"empid": existingComplaint.AllotedTo}, update)
+	log.Println(r.ModifiedCount)
+	if err != nil {
+		return nil, err
+	}
+
+	return existingComplaint, nil
 }
 
 func UpdateComplaintsByCaseID(ctx *gofr.Context, client *mongo.Client) (interface{}, error) {
