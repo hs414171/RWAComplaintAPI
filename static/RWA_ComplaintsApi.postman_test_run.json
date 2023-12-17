@@ -1,0 +1,177 @@
+{
+	"id": "31102f64-e925-4fdd-86d1-9d5d2ceb24a6",
+	"name": "RWA_Complaints Api",
+	"timestamp": "2023-12-17T19:03:42.361Z",
+	"collection_id": "16926948-24c6a840-4ccb-4a8f-b161-36dcbcc4043b",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 5,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-12-17T19:03:41.448Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "af37a5c4-8ee6-42a8-b0d6-fc999e3e047d",
+			"name": "Add Workers",
+			"url": "http://localhost:5000/addworkers",
+			"time": 39,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Successful POST request": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				39
+			],
+			"allTests": [
+				{
+					"Successful POST request": true
+				}
+			]
+		},
+		{
+			"id": "981e7d72-9477-4bec-8395-8b353af149a1",
+			"name": "Get Workers",
+			"url": "http://localhost:5000/getworkers",
+			"time": 33,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				33
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "06f11e9e-1d2c-4c7d-bae7-b06a199ca1f5",
+			"name": "Delete Workers",
+			"url": "http://localhost:5000/delworker/657f45e43a716f22858cbe1d",
+			"time": 36,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "24665254-9456-4f80-8646-62989123a420",
+			"name": "Update Workers",
+			"url": "http://localhost:5000/updateworker/657d432efb9857ef2ec1cc68",
+			"time": 34,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				34
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "d0ed0f86-b0c3-4fd1-8710-abb367a1090e",
+			"name": "Find Workers with ID",
+			"url": "http://localhost:5000/worker/657d432efb9857ef2ec1cc68",
+			"time": 32,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				32
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 174,
+	"collection": {
+		"requests": [
+			{
+				"id": "af37a5c4-8ee6-42a8-b0d6-fc999e3e047d",
+				"method": "POST"
+			},
+			{
+				"id": "981e7d72-9477-4bec-8395-8b353af149a1",
+				"method": "GET"
+			},
+			{
+				"id": "06f11e9e-1d2c-4c7d-bae7-b06a199ca1f5",
+				"method": "DELETE"
+			},
+			{
+				"id": "24665254-9456-4f80-8646-62989123a420",
+				"method": "PATCH"
+			},
+			{
+				"id": "d0ed0f86-b0c3-4fd1-8710-abb367a1090e",
+				"method": "GET"
+			}
+		]
+	}
+}

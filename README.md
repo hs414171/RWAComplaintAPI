@@ -175,6 +175,10 @@ Start the server
 ## Use Case Diagram
 ![UseCaseDiagram](https://www.planttext.com/api/plantuml/svg/RP312i8m38RlUOgm-mxEdMLbWWyWPUUonbdisj5c1n7VtKsh5lJsvUVx4qWJMGMUHmkMJepiCPZXpAXDe9wDTw1wzW5bf80geanpvyFbbNGf4NeqRWq4mDfLRh24nsja6l46Y7EaNaN2GcYDhHydgupZuhcrtUI2dBHY-d6gtDcJfJ_EDdSEn5yX9gE6HP5ObhjqzirLnjkCwuMxZ4NM5LbNVBftW8QSNhxw0000)
 
+## Postman Test Results
+
+[Link Text](static/RWA_ComplaintsApi.postman_test_run.json)
+
 ## Authors
 
 - [@hs414171](https://github.com/hs414171)
