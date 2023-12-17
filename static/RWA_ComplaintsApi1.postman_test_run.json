@@ -1,0 +1,177 @@
+{
+	"id": "854e51e1-26a2-401c-9968-0dfd0755988c",
+	"name": "RWA_Complaints Api",
+	"timestamp": "2023-12-17T19:40:27.702Z",
+	"collection_id": "16926948-24c6a840-4ccb-4a8f-b161-36dcbcc4043b",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 5,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-12-17T19:40:26.331Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "44c4487f-64ee-458c-82c5-607ac405bd9b",
+			"name": "Add Complaints",
+			"url": "http://localhost:5000/addcomplaints",
+			"time": 101,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Successful POST request": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				101
+			],
+			"allTests": [
+				{
+					"Successful POST request": true
+				}
+			]
+		},
+		{
+			"id": "396fae11-c71c-4799-a69c-3509457e72b5",
+			"name": "Delete Complaint by Complaint ID",
+			"url": "http://localhost:5000/delcomp/657d4354fb9857ef2ec1cc70",
+			"time": 97,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				97
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "468a54eb-01e9-4f7d-8cc2-17b4b16a0db5",
+			"name": "Get Complaints",
+			"url": "http://localhost:5000/getcomplaints",
+			"time": 31,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				31
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "985f3915-654f-4dd1-843c-1abf81910f50",
+			"name": "Get Complaint By Case ID",
+			"url": "http://localhost:5000/complaint/657d436efb9857ef2ec1cc74",
+			"time": 35,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				35
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "58bbb42a-fc0d-46e1-b496-3ab8479bd22f",
+			"name": "Update Complaint By Case ID",
+			"url": "http://localhost:5000/updatecomp/657d436efb9857ef2ec1cc74",
+			"time": 62,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				62
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 326,
+	"collection": {
+		"requests": [
+			{
+				"id": "44c4487f-64ee-458c-82c5-607ac405bd9b",
+				"method": "POST"
+			},
+			{
+				"id": "396fae11-c71c-4799-a69c-3509457e72b5",
+				"method": "DELETE"
+			},
+			{
+				"id": "468a54eb-01e9-4f7d-8cc2-17b4b16a0db5",
+				"method": "GET"
+			},
+			{
+				"id": "985f3915-654f-4dd1-843c-1abf81910f50",
+				"method": "GET"
+			},
+			{
+				"id": "58bbb42a-fc0d-46e1-b496-3ab8479bd22f",
+				"method": "PATCH"
+			}
+		]
+	}
+}
